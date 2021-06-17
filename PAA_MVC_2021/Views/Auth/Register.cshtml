@@ -1,0 +1,42 @@
+﻿@model  PAA_MVC_2021.Models.ViewModels.UserRegisterViewModel
+@{
+    ViewBag.Title = "Formulario de registro";
+    
+}
+<div class="card mt-5">
+    <div class="card-header">@ViewBag.Title</div>
+    <div class="card-body">
+        <div class="text-danger">
+            @Html.ValidationSummary()
+        </div>
+        <form action="/auth/Register" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="FirstName" value="" />
+                @Html.ValidationMessageFor(x => x.FirstName, null, new { @class="text-danger"})
+            </div>
+            <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control" name="LastName" value="" />
+                @Html.ValidationMessageFor(x => x.LastName, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="EmailAddress" value="" />
+                @Html.ValidationMessageFor(x => x.EmailAddress, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" name="Password" value="" />
+                @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label>Confirme Contraseña</label>
+                <input type="password" class="form-control" name="PasswordConfirm" value="" />
+                @Html.ValidationMessageFor(x => x.PasswordConfirm, null, new { @class = "text-danger" })
+            </div>
+            <button class="btn btn-success">Enviar</button>
+        </form>
+    </div>
+</div>
