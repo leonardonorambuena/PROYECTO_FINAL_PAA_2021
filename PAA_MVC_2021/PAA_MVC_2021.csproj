@@ -188,6 +188,10 @@
     <Compile Include="Migrations\202106110012217_AddProductsTable.Designer.cs">
       <DependentUpon>202106110012217_AddProductsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106172331219_ChangeNameInUsersTable.cs" />
+    <Compile Include="Migrations\202106172331219_ChangeNameInUsersTable.Designer.cs">
+      <DependentUpon>202106172331219_ChangeNameInUsersTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\ApplicationDbContext.cs" />
     <Compile Include="Models\Entities\BaseEntity.cs" />
@@ -268,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106110012217_AddProductsTable.resx">
       <DependentUpon>202106110012217_AddProductsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106172331219_ChangeNameInUsersTable.resx">
+      <DependentUpon>202106172331219_ChangeNameInUsersTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

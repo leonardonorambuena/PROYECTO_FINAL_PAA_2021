@@ -28,7 +28,7 @@ namespace PAA_MVC_2021.Models.Entities
 
         public string PhoneNumber { get; set; }
 
-        public string Address { get; set; }
+        public string UserAddress { get; set; }
 
         public DateTime? VerifiedAt { get; set; }
         [Required]
