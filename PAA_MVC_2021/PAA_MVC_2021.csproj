@@ -167,7 +167,9 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DefaultBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlatformsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -175,6 +177,7 @@
     <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Helpers\UploadFile.cs" />
     <Compile Include="Helpers\UserClaimHelper.cs" />
     <Compile Include="Migrations\202105152349582_CreateTableUsersAndRoles.cs" />
     <Compile Include="Migrations\202105152349582_CreateTableUsersAndRoles.Designer.cs">
@@ -188,14 +191,25 @@
     <Compile Include="Migrations\202106110012217_AddProductsTable.Designer.cs">
       <DependentUpon>202106110012217_AddProductsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107012306310_ProductPlatformTable.cs" />
+    <Compile Include="Migrations\202107012306310_ProductPlatformTable.Designer.cs">
+      <DependentUpon>202107012306310_ProductPlatformTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202107060203471_AddProductImageToProductTable.cs" />
+    <Compile Include="Migrations\202107060203471_AddProductImageToProductTable.Designer.cs">
+      <DependentUpon>202107060203471_AddProductImageToProductTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\ApplicationDbContext.cs" />
     <Compile Include="Models\Entities\BaseEntity.cs" />
     <Compile Include="Models\Entities\Product.cs" />
+    <Compile Include="Models\Entities\ProductPlatform.cs" />
     <Compile Include="Models\Entities\Role.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\PlatformCreateViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductCreateViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductIndexViewModel.cs" />
     <Compile Include="Models\ViewModels\UserRegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -242,9 +256,12 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Show.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Platforms\Create.cshtml" />
+    <Content Include="Views\Platforms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DefaultBase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -268,6 +285,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106110012217_AddProductsTable.resx">
       <DependentUpon>202106110012217_AddProductsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107012306310_ProductPlatformTable.resx">
+      <DependentUpon>202107012306310_ProductPlatformTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107060203471_AddProductImageToProductTable.resx">
+      <DependentUpon>202107060203471_AddProductImageToProductTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

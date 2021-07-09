@@ -27,6 +27,8 @@ namespace PAA_MVC_2021.Models.Entities
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductPlatform> ProductPlatforms { get; set; }
     }
 
 

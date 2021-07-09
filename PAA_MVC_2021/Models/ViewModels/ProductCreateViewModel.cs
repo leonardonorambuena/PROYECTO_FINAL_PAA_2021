@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PAA_MVC_2021.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,5 +18,15 @@ namespace PAA_MVC_2021.Models.ViewModels
         public int? ProductPrice { get; set; }
         [Required]
         public int? ProducStock { get; set; }
+
+        [Required]
+        public int PlatformId { get; set; }
+
+        
+        public HttpPostedFileBase ProductFile { get; set; }
+
+        public List<ProductPlatform> ProductPlatforms { get; set; }
+
+        public Product Product { get; set; }
     }
 }

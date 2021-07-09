@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,17 +14,65 @@ using System.Web.Mvc;
 namespace PAA_MVC_2021.Controllers
 {
     [Authorize(Roles = StringHelper.ROLE_ADMINISTRATOR)]
-    public class ProductController : Controller
+    public class ProductController : DefaultBaseController
     {
         private ApplicationDbContext _db = new ApplicationDbContext();
         // GET: Product
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(ProductIndexViewModel vm)
         {
-            var products = await _db.Products
-                                .OrderBy(x => x.ProductName)
-                                .ToListAsync();
+            vm.Products = await GetProducts(vm);
 
-            return View(products);
+            vm.Platforms = await _db.ProductPlatforms
+                                    .OrderBy(x => x.ProductPlatformName)
+                                    .ToListAsync();
+
+            return View(vm);
+        }
+
+        public async Task<List<Product>> GetProducts(ProductIndexViewModel vm)
+        {
+            var queryProduct = _db.Products.AsQueryable();
+
+            if (vm.ProductCode != null)
+                queryProduct = queryProduct.Where(x => x.ProductCode == vm.ProductCode);
+            if (vm.ProductName != null)
+                queryProduct = queryProduct.Where(x => x.ProductName == vm.ProductName);
+            if (vm.PlatformId != null)
+                queryProduct = queryProduct.Where(x => x.PlatformId == vm.PlatformId);
+
+            switch (vm.Sort)
+            {
+                case 1:
+                    queryProduct = queryProduct.OrderBy(x => x.ProductCode);
+                    break;
+                case -1:
+                    queryProduct = queryProduct.OrderByDescending(x => x.ProductCode);
+                    break;
+                case 2:
+                    queryProduct = queryProduct.OrderBy(x => x.ProductName);
+                    break;
+                case -2:
+                    queryProduct = queryProduct.OrderByDescending(x => x.ProductName);
+                    break;
+                case 3:
+                    queryProduct = queryProduct.OrderBy(x => x.ProductPrice);
+                    break;
+                case -3:
+                    queryProduct = queryProduct.OrderByDescending(x => x.ProductPrice);
+                    break;
+                case 4:
+                    queryProduct = queryProduct.OrderBy(x => x.ProducStock);
+                    break;
+                case -4:
+                    queryProduct = queryProduct.OrderByDescending(x => x.ProducStock);
+                    break;
+                default:
+                    queryProduct = queryProduct.OrderByDescending(x => x.ProductName);
+                    break;
+            }
+
+            return await queryProduct.ToListAsync();
+
         }
         [HttpGet]
         public async Task<ActionResult> Show(int productId)
@@ -35,13 +84,27 @@ namespace PAA_MVC_2021.Controllers
                 TempData["ErrorMessage"] = "El producto no fue encontrado";
                 return RedirectToAction("Index");
             }
+            var vm = await GetCreateViewModel(product);
 
-            return View(product);
+            return View(vm);
         }
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View(new ProductCreateViewModel());
+            var vm = await GetCreateViewModel();  
+            return View(vm);
+        }
+
+        public async Task<ProductCreateViewModel> GetCreateViewModel(Product product = null)
+        {
+            var vm = new ProductCreateViewModel();
+            vm.ProductPlatforms = await _db.ProductPlatforms
+                                    .OrderBy(x => x.ProductPlatformName)
+                                    .ToListAsync();
+            if (product != null)
+                vm.Product = product;
+
+            return vm;
         }
 
         [HttpPost]
@@ -60,8 +123,11 @@ namespace PAA_MVC_2021.Controllers
                     ProductCode = model.ProductCode,
                     ProducStock = (int)model.ProducStock,
                     ProductName = model.ProductName,
-                    ProductPrice = (int)model.ProductPrice
+                    ProductPrice = (int)model.ProductPrice,
+                    PlatformId = model.PlatformId
                 };
+
+                product.ProductImage = UploadFile(model.ProductFile, "products");
 
                 _db.Products.Add(product);
                 await _db.SaveChangesAsync();
@@ -72,6 +138,8 @@ namespace PAA_MVC_2021.Controllers
 
             return View(model);
         }
+
+   
 
 
 
@@ -88,7 +156,7 @@ namespace PAA_MVC_2021.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var product = await _db.Products.FirstOrDefaultAsync(x => x.ProductCode == model.ProductCode);
+                var product = await _db.Products.FindAsync(model.ProductId);
                 if (product == null)
                 {
                     TempData["ErrorMessage"] = "El producto no fue encontrado, imposible actualizar";
@@ -97,6 +165,7 @@ namespace PAA_MVC_2021.Controllers
                 product.ProducStock = (int)model.ProducStock;
                 product.ProductName = model.ProductName;
                 product.ProductPrice = (int)model.ProductPrice;
+                product.ProductCode = model.ProductCode;
 
                 _db.Products.AddOrUpdate(product);
                 await _db.SaveChangesAsync();
