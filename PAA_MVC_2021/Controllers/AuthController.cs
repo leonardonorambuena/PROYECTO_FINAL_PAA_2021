@@ -99,7 +99,7 @@ namespace PAA_MVC_2021.Controllers
                     } catch (Exception e)
                     {
                         transaction.Rollback();
-                        TempData["ErrorMessage"] = e.Message;
+                        TempData["ErrorMessage"] = e.Message; // Crearse un log o enviar un correo al area de desarrollo
                         return View(model);
                     }
                     

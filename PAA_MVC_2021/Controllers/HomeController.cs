@@ -1,19 +1,25 @@
-﻿using PAA_MVC_2021.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using PAA_MVC_2021.DAL;
+using PAA_MVC_2021.Models.Entities;
+using PAA_MVC_2021.Models.ViewModels;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace PAA_MVC_2021.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
+        public async Task<ActionResult> Index(ProductIndexViewModel vm)
         {
-            if (User.IsInRole(StringHelper.ROLE_ADMINISTRATOR))
-                return RedirectToAction("Index", "Product");
-            return View();
+            vm.Products = await ProductDAL.GetProducts(vm, _db);
+
+            vm.Platforms = await _db.ProductPlatforms
+                                    .OrderBy(x => x.ProductPlatformName)
+                                    .ToListAsync();
+
+            return View(vm);
         }
 
         public ActionResult About()
@@ -36,6 +42,13 @@ namespace PAA_MVC_2021.Controllers
             return RedirectToAction("About");
         }
 
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                _db.Dispose();
+            base.Dispose(disposing);
+        }
 
     }
 }

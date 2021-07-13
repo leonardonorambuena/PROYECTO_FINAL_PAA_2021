@@ -1,4 +1,5 @@
-﻿using PAA_MVC_2021.Helpers;
+﻿using PAA_MVC_2021.DAL;
+using PAA_MVC_2021.Helpers;
 using PAA_MVC_2021.Models.Entities;
 using PAA_MVC_2021.Models.ViewModels;
 using System;
@@ -20,7 +21,7 @@ namespace PAA_MVC_2021.Controllers
         // GET: Product
         public async Task<ActionResult> Index(ProductIndexViewModel vm)
         {
-            vm.Products = await GetProducts(vm);
+            vm.Products = await ProductDAL.GetProducts(vm, _db);
 
             vm.Platforms = await _db.ProductPlatforms
                                     .OrderBy(x => x.ProductPlatformName)
@@ -29,51 +30,7 @@ namespace PAA_MVC_2021.Controllers
             return View(vm);
         }
 
-        public async Task<List<Product>> GetProducts(ProductIndexViewModel vm)
-        {
-            var queryProduct = _db.Products.AsQueryable();
-
-            if (vm.ProductCode != null)
-                queryProduct = queryProduct.Where(x => x.ProductCode == vm.ProductCode);
-            if (vm.ProductName != null)
-                queryProduct = queryProduct.Where(x => x.ProductName == vm.ProductName);
-            if (vm.PlatformId != null)
-                queryProduct = queryProduct.Where(x => x.PlatformId == vm.PlatformId);
-
-            switch (vm.Sort)
-            {
-                case 1:
-                    queryProduct = queryProduct.OrderBy(x => x.ProductCode);
-                    break;
-                case -1:
-                    queryProduct = queryProduct.OrderByDescending(x => x.ProductCode);
-                    break;
-                case 2:
-                    queryProduct = queryProduct.OrderBy(x => x.ProductName);
-                    break;
-                case -2:
-                    queryProduct = queryProduct.OrderByDescending(x => x.ProductName);
-                    break;
-                case 3:
-                    queryProduct = queryProduct.OrderBy(x => x.ProductPrice);
-                    break;
-                case -3:
-                    queryProduct = queryProduct.OrderByDescending(x => x.ProductPrice);
-                    break;
-                case 4:
-                    queryProduct = queryProduct.OrderBy(x => x.ProducStock);
-                    break;
-                case -4:
-                    queryProduct = queryProduct.OrderByDescending(x => x.ProducStock);
-                    break;
-                default:
-                    queryProduct = queryProduct.OrderByDescending(x => x.ProductName);
-                    break;
-            }
-
-            return await queryProduct.ToListAsync();
-
-        }
+        
         [HttpGet]
         public async Task<ActionResult> Show(int productId)
         {
