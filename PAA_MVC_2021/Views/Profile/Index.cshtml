@@ -1,0 +1,19 @@
+﻿@model PAA_MVC_2021.Models.Entities.User
+@{
+    ViewBag.Title = Model.FullName;
+}
+
+<div class="card mt-5">
+    <div class="card-header bg-success text-white"><h3>Hola @Model.FullName</h3></div>
+    <div class="card-body">
+        <dl>
+            <dt>Nombre</dt>
+            <dd>@Model.FullName</dd>
+            <dt>Email</dt>
+            <dd>@Model.EmailAddress</dd>
+            <dt>Curso</dt>
+            <dd>Programación avanzada de aplicaciones</dd>
+        </dl>
+
+    </div>
+</div>

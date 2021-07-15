@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PAA_MVC_2021.Models.Entities
 {
@@ -16,7 +16,8 @@ namespace PAA_MVC_2021.Models.Entities
 
         public List<Product> Products { get; set; }
 
-        public int CountProducst => Products != null ? Products.Count : 0;
+        [NotMapped]
+        public int CountProducts { get; set; }
     }
 
 }

@@ -17,7 +17,12 @@ namespace PAA_MVC_2021.Controllers
         // GET: Platforms
         public async Task<ActionResult> Index()
         {
-            var platforms = await _db.ProductPlatforms.Include("Products").ToListAsync();
+            var platforms = await _db.ProductPlatforms.ToListAsync();
+
+            foreach (var platform in platforms)
+            {
+                platform.CountProducts = await _db.Products.CountAsync(x => x.PlatformId == platform.ProductPlatformId);
+            }
             return View(platforms);
         }
         [HttpGet]

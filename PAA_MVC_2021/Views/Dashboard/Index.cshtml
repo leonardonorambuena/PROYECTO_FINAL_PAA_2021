@@ -1,0 +1,42 @@
+﻿@model PAA_MVC_2021.Models.ViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard de administración";
+}
+
+
+<div class="card mt-5">
+    <div class="card-header"><h3>@ViewBag.Title</h3></div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card bg-info text-white text-center">
+                    <h5 class="card-title">Usuarios Registrados</h5>
+                    <h2 class="">@Model.CountUsers</h2>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-secondary text-white text-center">
+                    <h5 class="card-title">Juegos Registrados</h5>
+                    <h2 class="">@Model.CountGames</h2>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-success text-white text-center">
+                    <h5 class="card-title">Nintendo</h5>
+                    <h2 class="">@Model.CountNintendo</h2>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card bg-primary text-white text-center">
+                    <h5 class="card-title">Playstation</h5>
+                    <h2 class="">@Model.CountPlay</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

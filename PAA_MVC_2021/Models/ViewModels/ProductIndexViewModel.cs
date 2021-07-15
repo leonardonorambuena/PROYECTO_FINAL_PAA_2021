@@ -9,6 +9,8 @@ namespace PAA_MVC_2021.Models.ViewModels
 
         public string ProductCode { get; set; }
 
+        public string Search { get; set; }
+
         public string ProductName { get; set; }
 
         public int? PlatformId { get; set; } // esto por defecto es null
